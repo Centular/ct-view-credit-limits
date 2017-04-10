@@ -1,4 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-input/paper-input.html">
 
 <!--
 `ct-view-credit-limits`
@@ -8,27 +11,79 @@ Element to display and edit credit limits on the Centular platform
 -->
 
 <dom-module id="ct-view-credit-limits">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   <template>
+
     <style>
       :host {
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2 col-sm-offset-10">
+          <paper-button class="btn btn-primary btn-block" on-tap="_toggleStatus">Edit Fees</paper-button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div><strong>Free Token Issues</strong></div>
+        </div>
+        <div class="col-sm-8">
+          <paper-input label="Free Token Issues" value="R 100.00" readonly$="[[_computeReadOnly(_isStatusEdit)]]"></paper-input>
+          <span>per meter</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div><strong>Recurring Tokens</strong></div>
+        </div>
+        <div class="col-sm-8">
+          <paper-input label="Free Token Issues" value="R 100.00" readonly$="[[_computeReadOnly(_isStatusEdit)]]"></paper-input>
+          <span>per account</span>
+        </div>
+      </div>
+    </div>
+
   </template>
 
   <script>
-    Polymer({
+      Polymer({
 
-      is: 'ct-view-credit-limits',
+          is: 'ct-view-credit-limits',
+          behaviors: [currencyBehaviour],
 
-      properties: {
-        prop1: {
-          type: String,
-          value: 'ct-view-credit-limits',
-        },
-      },
+          properties: {
+              _isStatusEdit : {
+                  type: Boolean,
+                  value: function() {
+                      return false;
+                  }
+              }
+          },
 
-    });
+          _computeReadOnly : function(status){
+              return (!status);
+          },
+
+          _toggleStatus : function(){
+              this._isStatusEdit = !this._isStatusEdit;
+          },
+
+          _formatMoney : function(n, c, d, t) {
+              var n = parseFloat(n),
+                  c = isNaN(c = Math.abs(c)) ? 2 : c,
+                  d = d == undefined ? "." : d,
+                  t = t == undefined ? " " : t,
+                  s = n < 0 ? "-" : "",
+                  i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+                  j = (j = i.length) > 3 ? j % 3 : 0;
+              return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+          }
+
+
+
+      });
   </script>
 </dom-module>
