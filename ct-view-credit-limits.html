@@ -22,8 +22,14 @@ Element to display and edit credit limits on the Centular platform
       :host {
         display: block;
       }
+
+      .token-input-container paper-input {
+        display: inline-block;
+      }
+
+
     </style>
-    <div class="container-fluid">
+    <div class="container-fluid token-input-container">
       <div class="row">
         <div class="col-sm-2 col-sm-offset-10">
           <paper-button class$="btn btn-block [[_computeBtnStyle(_isStatusEdit)]]" on-tap="_editBtnHandler">[[_computeButtonText(_isStatusEdit)]]</paper-button>
