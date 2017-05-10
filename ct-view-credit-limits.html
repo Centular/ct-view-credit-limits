@@ -4,19 +4,18 @@
 
 <link rel="import" href="../ct-currency-behaviour/ct-currency-behaviour.html">
 <link rel="import" href="../shared-styles/ct-application-theme.html">
-<link rel="import" href="../shared-styles/global-styles.css">
 
 <!--
 `ct-view-credit-limits`
 Element to display and edit credit limits on the Centular platform
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="ct-view-credit-limits">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <template>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <style is="global-styles">
       :host {
@@ -32,7 +31,8 @@ Element to display and edit credit limits on the Centular platform
     <div class="container-fluid token-input-container">
       <div class="row">
         <div class="col-sm-2 col-sm-offset-10">
-          <paper-button class$="btn btn-block [[_computeBtnStyle(_isStatusEdit)]]" on-tap="_editBtnHandler">[[_computeButtonText(_isStatusEdit)]]</paper-button>
+          <paper-button
+                  class$="btn btn-block [[_computeBtnStyle(_isStateEdit)]]" on-tap="_editBtnHandler">[[_computeButtonText(_isStateEdit)]]</paper-button>
         </div>
       </div>
       <div class="row">
@@ -40,9 +40,16 @@ Element to display and edit credit limits on the Centular platform
           <div><strong>Free Token Issues</strong></div>
         </div>
         <div class="col-sm-8">
-          <paper-input type="text" allowed-pattern="[0-9\.]" no-label value="[[formatMoney(_dataObj.freeTokens)]]" readonly$="[[_computeReadOnly(_isStatusEdit)]]">
-            <div prefix>R </div>
-          </paper-input>
+          <ct-editable-switcher edit-mode$="[[_isStateEdit]]">
+            <paper-input
+                    class="input-element"
+                    type="text"
+                    allowed-pattern="[0-9\.]"
+                    no-label
+                    value="[[formatMoney(_dataObj.freeTokens)]]">
+              <div prefix>R </div>
+            </paper-input>
+          </ct-editable-switcher>
           <span>per meter</span>
         </div>
       </div>
@@ -51,9 +58,16 @@ Element to display and edit credit limits on the Centular platform
           <div><strong>Recurring Tokens</strong></div>
         </div>
         <div class="col-sm-8">
-          <paper-input type="text" allowed-pattern="[0-9\.]" no-label value="[[formatMoney(_dataObj.recurringTokens)]]" readonly$="[[_computeReadOnly(_isStatusEdit)]]">
-            <div prefix>R </div>
-          </paper-input>
+          <ct-editable-switcher edit-mode$="[[_isStateEdit]]">
+            <paper-input
+                    class="input-element"
+                    type="text"
+                    allowed-pattern="[0-9\.]"
+                    no-label
+                    value="[[formatMoney(_dataObj.recurringTokens)]]">
+              <div prefix>R </div>
+            </paper-input>
+          </ct-editable-switcher>
           <span>per account</span>
         </div>
       </div>
@@ -68,7 +82,7 @@ Element to display and edit credit limits on the Centular platform
           behaviors: [CurrencyBehaviours.CurrencyFormatBehaviour],
 
           properties: {
-              _isStatusEdit : {
+              _isStateEdit : {
                   type: Boolean,
                   value: function() {
                       return false;
@@ -91,7 +105,7 @@ Element to display and edit credit limits on the Centular platform
           },
 
           _computeButtonText: function(isEdit){
-             return (isEdit) ? 'Save Fees' : 'Edit Fees';
+              return (isEdit) ? 'Save Fees' : 'Edit Fees';
           },
 
           _computeBtnStyle : function(isEdit){
@@ -99,7 +113,7 @@ Element to display and edit credit limits on the Centular platform
           },
 
           _toggleStatus : function(){
-              this._isStatusEdit = !this._isStatusEdit;
+              this._isStateEdit = !this._isStateEdit;
           },
 
           _editBtnHandler : function(){
