@@ -1,4 +1,4 @@
-# \<ct-view-credit-limits\>
+# \<ct-view-settings-credit-limits\>
 
 Element to display and edit credit limits on the Centular platform
 
